@@ -23,6 +23,7 @@ public class CSVHelper {
     private static final String[] columnNames = {"Country Name", "Country Code"};
 
     public static boolean isCorrectType(MultipartFile file){
+        System.out.println(file.getContentType());
         return TYPE.equals(file.getContentType());
     }
 

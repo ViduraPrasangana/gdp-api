@@ -1,7 +1,6 @@
 package com.mitrai.gdpapi.model;
 
 import javax.persistence.*;
-
 @Entity
 public class Country {
     @Id

@@ -1,5 +1,8 @@
 package com.mitrai.gdpapi.model;
 
+import com.mitrai.gdpapi.YearStrategy;
+import uk.co.jemos.podam.common.PodamStrategyValue;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +13,7 @@ public class Year {
     private Long id;
 
     @Column(nullable = false)
+    @PodamStrategyValue(YearStrategy.class)
     private long year;
 
     public Year() {
