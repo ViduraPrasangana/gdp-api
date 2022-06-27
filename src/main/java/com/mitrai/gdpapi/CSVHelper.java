@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,14 +23,15 @@ public class CSVHelper {
     public static final String TYPE = "text/csv";
     private static final String[] columnNames = {"Country Name", "Country Code"};
 
+    private CSVHelper(){}
+
     public static boolean isCorrectType(MultipartFile file){
-        System.out.println(file.getContentType());
         return TYPE.equals(file.getContentType());
     }
 
     public static CSVParser extractRecords(InputStream is) throws ParseException {
         try {
-            BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
              return new CSVParser(fileReader,
                      CSVFormat.Builder.create()
                              .setHeader()
@@ -48,19 +50,19 @@ public class CSVHelper {
         years.forEach(s -> {
             try{
                 yearsObjects.add(new Year(Integer.parseInt(s)));
-            }catch (NumberFormatException ignore){}
+            }catch (NumberFormatException e){
+                e.printStackTrace();
+            }
         });
 
         return yearsObjects;
     }
 
-    public static List<GDPGrowthRates> extractGrowthRates(List<CSVRecord> csvRecords, Iterable<Country> countries, Iterable<Year> years) throws ParseException {
+    public static List<GDPGrowthRates> extractGrowthRates(List<CSVRecord> csvRecords, Iterable<Country> countries, Iterable<Year> years) {
         List<GDPGrowthRates> gdpGrowthRates = new ArrayList<>();
         Map<String,Country> countryMap = new HashMap<>();
 
-        countries.forEach(country -> {
-            countryMap.put(country.getCode(),country);
-        });
+        countries.forEach(country -> countryMap.put(country.getCode(),country));
 
         for (CSVRecord csvRecord : csvRecords) {
             Country country = countryMap.get(csvRecord.get(columnNames[1]));
@@ -69,7 +71,9 @@ public class CSVHelper {
                 try{
                     double rate = Double.parseDouble(csvRecord.get(String.valueOf(year.getYear())));
                     gdpGrowthRates.add(new GDPGrowthRates(country,year,rate));
-                }catch (NullPointerException | NumberFormatException ignore){}
+                }catch (NullPointerException | NumberFormatException e){
+                    e.printStackTrace();
+                }
 
             });
 
@@ -80,9 +84,7 @@ public class CSVHelper {
     public static List<Country> extractCountries(List<CSVRecord> csvRecords) {
         List<Country> countries = new ArrayList<>();
 
-        csvRecords.forEach(csvRecord -> {
-            countries.add(new Country(csvRecord.get(0),csvRecord.get(1)));
-        });
+        csvRecords.forEach(csvRecord -> countries.add(new Country(csvRecord.get(0),csvRecord.get(1))));
 
         return countries;
     }

@@ -1,7 +1,5 @@
 package com.mitrai.gdpapi.model;
 
-import com.mitrai.gdpapi.model.Country;
-import com.mitrai.gdpapi.model.Year;
 
 import javax.persistence.*;
 

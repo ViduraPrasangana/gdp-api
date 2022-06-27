@@ -17,9 +17,7 @@ public class GDPGrowthRateService {
     public List<GDPResponseEntry> getGDPGrowthRates(String code, String from, String to){
         List<GDPGrowthRates> rates = gdpGrowthRatesRepository.findByCountry_CodeAndYear_YearGreaterThanEqualAndYear_YearLessThanEqual(code,Integer.parseInt(from),Integer.parseInt(to));
         List<GDPResponseEntry> responseEntries = new ArrayList<>();
-        rates.forEach(gdpGrowthRates -> {
-            responseEntries.add(new GDPResponseEntry(gdpGrowthRates.getYear().getYear(),gdpGrowthRates.getGrowthRate()));
-        });
+        rates.forEach(gdpGrowthRates -> responseEntries.add(new GDPResponseEntry(gdpGrowthRates.getYear().getYear(),gdpGrowthRates.getGrowthRate())));
         return responseEntries;
     }
 
