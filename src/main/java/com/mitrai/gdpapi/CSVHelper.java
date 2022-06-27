@@ -51,7 +51,7 @@ public class CSVHelper {
             try{
                 yearsObjects.add(new Year(Integer.parseInt(s)));
             }catch (NumberFormatException e){
-                e.printStackTrace();
+                assert true;
             }
         });
 
@@ -72,7 +72,7 @@ public class CSVHelper {
                     double rate = Double.parseDouble(csvRecord.get(String.valueOf(year.getYear())));
                     gdpGrowthRates.add(new GDPGrowthRates(country,year,rate));
                 }catch (NullPointerException | NumberFormatException e){
-                    e.printStackTrace();
+                    assert true;
                 }
 
             });

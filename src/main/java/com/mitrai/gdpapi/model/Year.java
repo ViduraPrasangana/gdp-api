@@ -14,13 +14,13 @@ public class Year {
 
     @Column(nullable = false,name = "year")
     @PodamStrategyValue(YearStrategy.class)
-    private long yearVal;
+    private long year;
 
     public Year() {
     }
 
     public Year(long year) {
-        this.yearVal = year;
+        this.year = year;
     }
 
     public void setId(Long id) {
@@ -28,10 +28,10 @@ public class Year {
     }
 
     public long getYear() {
-        return yearVal;
+        return year;
     }
 
     public void setYear(long yearVal) {
-        this.yearVal = yearVal;
+        this.year = yearVal;
     }
 }
