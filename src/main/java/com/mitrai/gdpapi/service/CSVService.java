@@ -8,6 +8,7 @@ import com.mitrai.gdpapi.repository.YearRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,13 @@ import java.text.ParseException;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CSVService {
 
+    @Autowired
     private CountryRepository countryRepository;
+    @Autowired
     private GDPGrowthRatesRepository gdpGrowthRatesRepository;
+    @Autowired
     private YearRepository yearRepository;
 
     public ResponseEntity<ResponseMessage> handleFile(MultipartFile file){

@@ -3,13 +3,14 @@ package com.mitrai.gdpapi.controller;
 import com.mitrai.gdpapi.model.GDPResponseEntry;
 import com.mitrai.gdpapi.service.GDPGrowthRateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/gdp")
 public class GDPGrowthRateController {
+    @Autowired
     private GDPGrowthRateService gdpGrowthRateService;
 
     @GetMapping()
