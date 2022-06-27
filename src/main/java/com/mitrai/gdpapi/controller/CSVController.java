@@ -8,6 +8,8 @@ import com.mitrai.gdpapi.model.Country;
 import com.mitrai.gdpapi.model.GDPGrowthRates;
 import com.mitrai.gdpapi.model.ResponseMessage;
 import com.mitrai.gdpapi.model.Year;
+import com.mitrai.gdpapi.service.CSVService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,54 +28,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/csv")
+@RequiredArgsConstructor
 public class CSVController {
 
-    @Autowired
-    private CountryRepository countryRepository;
-
-    @Autowired
-    private GDPGrowthRatesRepository gdpGrowthRatesRepository;
-
-    @Autowired
-    private YearRepository yearRepository;
+    private final CSVService csvService;
 
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file,
                                                       RedirectAttributes redirectAttributes)  {
-        String message = "";
-        try{
-            if(CSVHelper.isCorrectType(file)){
-                CSVParser csvParser = CSVHelper.extractRecords(file.getInputStream());
-                List<CSVRecord> records = csvParser.getRecords();
-                List<String> headers = csvParser.getHeaderNames();
-                csvParser.close();
-
-                List<Year> years = CSVHelper.extractYears(headers);
-                List<Country> countries = CSVHelper.extractCountries(records);
-
-                gdpGrowthRatesRepository.deleteAll();
-                countryRepository.deleteAll();
-                yearRepository.deleteAll();
-
-                Iterable<Country> savedCountries = countryRepository.saveAll(countries);
-                Iterable<Year> savedYears = yearRepository.saveAll(years);
-
-                List<GDPGrowthRates> gdpGrowthRates = CSVHelper.extractGrowthRates(records,savedCountries,savedYears);
-                gdpGrowthRatesRepository.saveAll(gdpGrowthRates);
-                message = "Uploaded the file successfully: " + file.getOriginalFilename();
-                return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(message));
-
-            }else{
-                message = "Invalid file type: " + file.getContentType();
-                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(new ResponseMessage(message));
-
-            }
-        } catch(IOException | ParseException e){
-            e.printStackTrace();
-            message = "Error occurred : " + e.getMessage();
-        }
-
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ResponseMessage(message));
-
+        return csvService.handleFile(file);
     }
 }
