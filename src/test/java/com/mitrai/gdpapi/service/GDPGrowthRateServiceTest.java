@@ -12,12 +12,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.common.PodamStrategyValue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,8 +41,9 @@ class GDPGrowthRateServiceTest {
         when(gdpGrowthRatesRepository.findByCountry_CodeAndYear_YearGreaterThanEqualAndYear_YearLessThanEqual(country,from,to)).thenReturn(rates);
 
         assertThat(gdpGrowthRateService.getGDPGrowthRates(country,String.valueOf(from),String.valueOf(to)))
+                .matches(r -> r.getStatusCode().equals(HttpStatus.OK));
+        assertThat(gdpGrowthRateService.getGDPGrowthRates(country,String.valueOf(from),String.valueOf(to)).getBody())
                 .hasSize(rates.size())
-                .doesNotContainNull()
                 .extracting(GDPResponseEntry::getGrowthRate)
                 .doesNotContainNull();
     }
