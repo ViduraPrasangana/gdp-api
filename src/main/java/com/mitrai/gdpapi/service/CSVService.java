@@ -5,7 +5,6 @@ import com.mitrai.gdpapi.model.*;
 import com.mitrai.gdpapi.repository.CountryRepository;
 import com.mitrai.gdpapi.repository.GDPGrowthRatesRepository;
 import com.mitrai.gdpapi.repository.YearRepository;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;

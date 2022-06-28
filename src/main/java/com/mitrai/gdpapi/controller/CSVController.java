@@ -3,7 +3,6 @@ package com.mitrai.gdpapi.controller;
 
 import com.mitrai.gdpapi.model.ResponseMessage;
 import com.mitrai.gdpapi.service.CSVService;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,8 +3,6 @@ package com.mitrai.gdpapi.service;
 import com.mitrai.gdpapi.model.GDPGrowthRates;
 import com.mitrai.gdpapi.model.GDPResponseEntry;
 import com.mitrai.gdpapi.repository.GDPGrowthRatesRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

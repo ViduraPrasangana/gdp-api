@@ -2,7 +2,6 @@ package com.mitrai.gdpapi.controller;
 
 import com.mitrai.gdpapi.model.GDPResponseEntry;
 import com.mitrai.gdpapi.service.GDPGrowthRateService;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
